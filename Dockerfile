@@ -22,6 +22,7 @@ RUN \
 WORKDIR /opt/app/
 COPY ./package.json ./
 COPY ./src ./src
+COPY ./config ./config
 
 HEALTHCHECK --interval=15s --timeout=5s --start-period=30s \
       CMD npm run docker:status
@@ -34,4 +35,4 @@ RUN chown -R app-user /opt/app
 USER app-user
 
 EXPOSE ${appPort}
-CMD [ "npm", "start" ]
+ENTRYPOINT [ "npm", "start" ]

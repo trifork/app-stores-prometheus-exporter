@@ -46,6 +46,12 @@ server.setTimeout(30000);
 
 server.on('request', (req, res) => {
   if (req.method === 'GET' && req.url === '/metrics') {
+    //Check if credentials are correct
+    if (!req.headers.authorization || req.headers.authorization.replace("Basic ","") !== process.env.AUTH_TOKEN) {
+      res.writeHead(401);
+      res.end();
+      return;
+    }
     getPayload()
       .then((payload) => {
         prometheus.init();
